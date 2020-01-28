@@ -38,12 +38,13 @@ call :GET_LAST_ARG %ARGS%
 
 
 ::----------------------------------------------------------------------------fix a bug where when used from shell (right-click, 'run-with' context-menu, 'ytdl.cmd') the current 'working from' folder is C:\Windows\System32 (or the x64 version), this is just small-"fix" to put things under the desktop-folder. A better solution will be to figure out the real-working environment or scrape one of the arguments (for example ytdl path...\.....\example_list.txt - for the path).
-echo."%CD%" | findstr /I /C:"Windows\System32" 2>nul 1>nul
-IF ["%ErrorLevel%"] EQU ["0"] ( pushd "%UserProfile%\Desktop" )
+::echo."%CD%" | findstr /I /C:"Windows\System32" 2>nul 1>nul
+::IF ["%ErrorLevel%"] EQU ["0"] ( pushd "%UserProfile%\Desktop" )
 
-echo."%CD%" | findstr /I /C:"Windows\SysWOW64" 2>nul 1>nul
-IF ["%ErrorLevel%"] EQU ["0"] ( pushd "%UserProfile%\Desktop" )
+::echo."%CD%" | findstr /I /C:"Windows\SysWOW64" 2>nul 1>nul
+::IF ["%ErrorLevel%"] EQU ["0"] ( pushd "%UserProfile%\Desktop" )
 
+pushd "%~sdp0"
 
 
 if ["%~1"] EQU [""]           ( goto NOARG  )
@@ -96,6 +97,10 @@ goto INVALID_URL
     ) 
   ) 
   ::---------------------------------------
+
+  set "WORK_FOLDER=%LAST_ARG%"
+  for /f %%a in ("%WORK_FOLDER%") do ( set "WORK_FOLDER=%%~sdpa%%~nxa" ) 
+  pushd "%WORK_FOLDER%"
 
   set "ARIA_INPUTFILE="
   for /f "tokens=*" %%a in ('call "%~sdp0ytdl2aria\index.cmd" "%LAST_ARG%" "%MODE_VIDEO_AUDIO%" ') do (set "ARIA_INPUTFILE=%%a")

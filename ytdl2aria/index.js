@@ -45,7 +45,7 @@ const  LIMIT             = 15               //limit for the lines in the file. n
                  +  " --format "
                  +  ("VIDEO" === MODE_VIDEO_AUDIO ? "\"best[ext=mp4][height <=? 720]\"" : "\"bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio\"" )
                  +  " --force-ipv4 --no-check-certificate --no-call-home --restrict-filenames --skip-download --dump-json \"##LINE##\" "
-   ,CONF_EXEC  = {timeout:     120 * 1000   //120s delay limit
+   ,CONF_EXEC  = {timeout:     300 * 1000   //300s delay limit
                  ,encoding:    "utf8"
                  ,windowsHide: false
                  }
